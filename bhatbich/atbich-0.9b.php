@@ -1,4 +1,7 @@
 <?php
+
+die('Aizkomentē šo rindiņu!');
+
 /*
 
 BH AtBiCh
